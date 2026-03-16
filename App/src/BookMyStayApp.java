@@ -1,64 +1,65 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BookMyStayApp {
 
-    private Map<String, Integer> roomAvailability;
+    private String guestName;
+    private String roomType;
+
+    public BookMyStayApp(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    private Queue<BookMyStayApp> requestQueue;
 
     public BookMyStayApp() {
-        roomAvailability = new HashMap<>();
-
-        roomAvailability.put("Single", 5);
-        roomAvailability.put("Double", 3);
-        roomAvailability.put("Suite", 2);
+        requestQueue = new LinkedList<>();
     }
 
-    public Map<String, Integer> getRoomAvailability() {
-        return roomAvailability;
+    public void addRequest(BookMyStayApp reservation) {
+        requestQueue.offer(reservation);
     }
 
-    public void displayRoomDetails() {
-        System.out.println("Room details displayed.");
+    public BookMyStayApp getNextRequest() {
+        return requestQueue.poll();
     }
 
-    public void searchAvailableRooms(
-            BookMyStayApp inventory,
-            BookMyStayApp singleRoom,
-            BookMyStayApp doubleRoom,
-            BookMyStayApp suiteRoom) {
-
-        Map<String, Integer> availability = inventory.getRoomAvailability();
-
-        if (availability.get("Single") > 0) {
-            System.out.println("Single Room Available");
-            singleRoom.displayRoomDetails();
-        }
-
-        if (availability.get("Double") > 0) {
-            System.out.println("Double Room Available");
-            doubleRoom.displayRoomDetails();
-        }
-
-        if (availability.get("Suite") > 0) {
-            System.out.println("Suite Room Available");
-            suiteRoom.displayRoomDetails();
-        }
+    public boolean hasPendingRequests() {
+        return !requestQueue.isEmpty();
     }
 
     public static void main(String[] args) {
 
-        BookMyStayApp inventory = new BookMyStayApp();
-        BookMyStayApp singleRoom = new BookMyStayApp();
-        BookMyStayApp doubleRoom = new BookMyStayApp();
-        BookMyStayApp suiteRoom = new BookMyStayApp();
+        System.out.println("Booking Request Queue");
 
-        BookMyStayApp searchService = new BookMyStayApp();
+        BookMyStayApp bookingQueue = new BookMyStayApp();
 
-        searchService.searchAvailableRooms(
-                inventory,
-                singleRoom,
-                doubleRoom,
-                suiteRoom
-        );
+        BookMyStayApp r1 = new BookMyStayApp("Abhi", "Single");
+        BookMyStayApp r2 = new BookMyStayApp("Subha", "Double");
+        BookMyStayApp r3 = new BookMyStayApp("Vanmathi", "Suite");
+
+        bookingQueue.addRequest(r1);
+        bookingQueue.addRequest(r2);
+        bookingQueue.addRequest(r3);
+
+        while (bookingQueue.hasPendingRequests()) {
+
+            BookMyStayApp reservation = bookingQueue.getNextRequest();
+
+            System.out.println(
+                    reservation.getGuestName() +
+                            " requested " +
+                            reservation.getRoomType()
+            );
+        }
     }
 }
