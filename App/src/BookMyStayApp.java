@@ -7,41 +7,58 @@ public class BookMyStayApp {
 
     public BookMyStayApp() {
         roomAvailability = new HashMap<>();
-        initializeInventory();
-    }
 
-    private void initializeInventory() {
-        roomAvailability.put("Single Room", 10);
-        roomAvailability.put("Double Room", 7);
-        roomAvailability.put("Suite Room", 3);
+        roomAvailability.put("Single", 5);
+        roomAvailability.put("Double", 3);
+        roomAvailability.put("Suite", 2);
     }
 
     public Map<String, Integer> getRoomAvailability() {
         return roomAvailability;
     }
 
-    public void updateAvailability(String roomType, int count) {
-        roomAvailability.put(roomType, count);
+    public void displayRoomDetails() {
+        System.out.println("Room details displayed.");
+    }
+
+    public void searchAvailableRooms(
+            BookMyStayApp inventory,
+            BookMyStayApp singleRoom,
+            BookMyStayApp doubleRoom,
+            BookMyStayApp suiteRoom) {
+
+        Map<String, Integer> availability = inventory.getRoomAvailability();
+
+        if (availability.get("Single") > 0) {
+            System.out.println("Single Room Available");
+            singleRoom.displayRoomDetails();
+        }
+
+        if (availability.get("Double") > 0) {
+            System.out.println("Double Room Available");
+            doubleRoom.displayRoomDetails();
+        }
+
+        if (availability.get("Suite") > 0) {
+            System.out.println("Suite Room Available");
+            suiteRoom.displayRoomDetails();
+        }
     }
 
     public static void main(String[] args) {
 
         BookMyStayApp inventory = new BookMyStayApp();
+        BookMyStayApp singleRoom = new BookMyStayApp();
+        BookMyStayApp doubleRoom = new BookMyStayApp();
+        BookMyStayApp suiteRoom = new BookMyStayApp();
 
-        System.out.println("Current Room Availability:");
+        BookMyStayApp searchService = new BookMyStayApp();
 
-        for (Map.Entry<String, Integer> entry : inventory.getRoomAvailability().entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
-        }
-
-        System.out.println("\nUpdating availability for Single Room...\n");
-
-        inventory.updateAvailability("Single Room", 8);
-
-        System.out.println("Updated Room Availability:");
-
-        for (Map.Entry<String, Integer> entry : inventory.getRoomAvailability().entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
-        }
+        searchService.searchAvailableRooms(
+                inventory,
+                singleRoom,
+                doubleRoom,
+                suiteRoom
+        );
     }
-}`
+}
