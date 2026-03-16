@@ -1,51 +1,47 @@
-/**
- * ==========================================================
- * ABSTRACT CLASS – BookMyStayApp
- * ==========================================================
- *
- * Use Case 2: Basic Room Types & Static Availability
- *
- * Description:
- * This abstract class represents a generic hotel room.
- *
- * It models attributes that are intrinsic to a room type
- * and remain constant regardless of availability.
- *
- * Inventory-related concerns are intentionally excluded.
- *
- * @version 2.1
- */
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class BookMyStayApp {
+public class BookMyStayApp {
 
-    /** Number of beds available in the room. */
-    protected int numberOfBeds;
+    private Map<String, Integer> roomAvailability;
 
-    /** Total size of the room in square feet. */
-    protected int squareFeet;
-
-    /** Price charged per night for this room type. */
-    protected double pricePerNight;
-
-    /**
-     * Constructor used by child classes to
-     * initialize common room attributes.
-     *
-     * @param numberOfBeds number of beds in the room
-     * @param squareFeet total room size
-     * @param pricePerNight cost per night
-     */
-    public BookMyStayApp(int numberOfBeds, int squareFeet, double pricePerNight) {
-        this.numberOfBeds = numberOfBeds;
-        this.squareFeet = squareFeet;
-        this.pricePerNight = pricePerNight;
+    public BookMyStayApp() {
+        roomAvailability = new HashMap<>();
+        initializeInventory();
     }
 
-    /** Displays room details */
-    public void displayRoomDetails() {
-        System.out.println("Room Details:");
-        System.out.println("Beds: " + numberOfBeds);
-        System.out.println("Size: " + squareFeet + " sq ft");
-        System.out.println("Price per Night: $" + pricePerNight);
+    private void initializeInventory() {
+        roomAvailability.put("Single Room", 10);
+        roomAvailability.put("Double Room", 7);
+        roomAvailability.put("Suite Room", 3);
     }
-}
+
+    public Map<String, Integer> getRoomAvailability() {
+        return roomAvailability;
+    }
+
+    public void updateAvailability(String roomType, int count) {
+        roomAvailability.put(roomType, count);
+    }
+
+    public static void main(String[] args) {
+
+        BookMyStayApp inventory = new BookMyStayApp();
+
+        System.out.println("Current Room Availability:");
+
+        for (Map.Entry<String, Integer> entry : inventory.getRoomAvailability().entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
+        }
+
+        System.out.println("\nUpdating availability for Single Room...\n");
+
+        inventory.updateAvailability("Single Room", 8);
+
+        System.out.println("Updated Room Availability:");
+
+        for (Map.Entry<String, Integer> entry : inventory.getRoomAvailability().entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue() + " rooms available");
+        }
+    }
+}`
