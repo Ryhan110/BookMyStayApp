@@ -1,47 +1,51 @@
 /**
  * ==========================================================
- * MAIN CLASS – BookMyStayApp
+ * ABSTRACT CLASS – BookMyStayApp
  * ==========================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 2: Basic Room Types & Static Availability
  *
  * Description:
- * This class represents the entry point of the
- * Hotel Booking Management System.
+ * This abstract class represents a generic hotel room.
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message to the user
- * - Confirms that the system has started successfully
+ * It models attributes that are intrinsic to a room type
+ * and remain constant regardless of availability.
  *
- * No business logic, data structures, or user input
- * is implemented in this use case.
+ * Inventory-related concerns are intentionally excluded.
  *
- * The goal is to establish a clear and predictable
- * application startup point.
- *
- * @author Developer
- * @version 1.0
+ * @version 2.1
  */
 
-public class BookMyStayApp {
+public abstract class BookMyStayApp {
+
+    /** Number of beds available in the room. */
+    protected int numberOfBeds;
+
+    /** Total size of the room in square feet. */
+    protected int squareFeet;
+
+    /** Price charged per night for this room type. */
+    protected double pricePerNight;
 
     /**
-     * Application entry point.
+     * Constructor used by child classes to
+     * initialize common room attributes.
      *
-     * This method is the first method executed
-     * when the program is launched by the JVM.
-     *
-     * @param args Command-line arguments
+     * @param numberOfBeds number of beds in the room
+     * @param squareFeet total room size
+     * @param pricePerNight cost per night
      */
-    public static void main(String[] args) {
+    public BookMyStayApp(int numberOfBeds, int squareFeet, double pricePerNight) {
+        this.numberOfBeds = numberOfBeds;
+        this.squareFeet = squareFeet;
+        this.pricePerNight = pricePerNight;
+    }
 
-        System.out.println("=====================================");
-        System.out.println(" Welcome to BookMyStay Hotel System ");
-        System.out.println("=====================================");
-
-        System.out.println("Application started successfully!");
-        System.out.println("System is ready for hotel booking operations.");
-
+    /** Displays room details */
+    public void displayRoomDetails() {
+        System.out.println("Room Details:");
+        System.out.println("Beds: " + numberOfBeds);
+        System.out.println("Size: " + squareFeet + " sq ft");
+        System.out.println("Price per Night: $" + pricePerNight);
     }
 }
