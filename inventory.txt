@@ -1,0 +1,3 @@
+Suite=1
+Standard=2
+Deluxe=1
